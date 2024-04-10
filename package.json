@@ -21,13 +21,14 @@
   "author": "SubQuery Team",
   "license": "MIT",
   "dependencies": {
-    "@subql/common": "latest",
-    "@subql/types-stellar": "latest"
+    "@subql/common": "^3.5.0",
+    "@subql/types-core": "^0.6.0",
+    "@subql/types-stellar": "^3.2.1"
   },
   "devDependencies": {
-    "@subql/cli": "latest",
-    "@subql/types": "latest",
-    "@subql/testing": "latest",
+    "@subql/cli": "^4.5.0",
+    "@subql/testing": "^2.1.0",
+    "@subql/types": "^3.4.0",
     "typescript": "^5.2.2"
   }
 }
