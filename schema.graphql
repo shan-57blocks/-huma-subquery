@@ -1,149 +1,155 @@
-type Pool @entity {
+type HumaConfig @entity {
   id: ID!
-  name: String!
-  version: Int!
-  address: Bytes!
-  status: Int!
-  currentEpochId: BigInt!
-  currentEpochEndTime: BigInt!
-
-  # Pool stats
-  totalPoolAssets: BigInt!
-  amountCreditOriginated: BigInt!
-  amountCreditRepaid: BigInt!
-  amountCreditDefaulted: BigInt!
+  owner: String!
+  address: String!
 }
 
-type CreditLine @entity {
-  id: ID!
-  lastUpdate: Bytes
-  correction: BigInt
-  dueDate: BigInt
-  creditLineType: Int
-  billRefreshDate: BigInt
-  feesAndInterestDue: BigInt
-  missedPeriods: Int
-  owner: Bytes
-  poolEntity: Pool
-  pool: Bytes
-  remainingPeriods: Int
-  state: Int
-  totalDue: BigInt
-  totalPastDue: BigInt
-  unbilledPrincipal: BigInt
-  settlementState: Int
-  committedAmount: BigInt
-  receivableAddress: Bytes
-  receivableParam: BigInt
-  receivables: [RWReceivable!]
-  creditEvents: [CreditEvent!]! @derivedFrom(field: "creditLine")
-}
+# type Pool @entity {
+#   id: ID!
+#   name: String!
+#   version: Int!
+#   address: Bytes!
+#   status: Int!
+#   currentEpochId: BigInt!
+#   currentEpochEndTime: BigInt!
 
-type Payment @entity {
-  id: ID!
-  paymentTx: Bytes!
-  processedTx: Bytes
-  amount: BigInt!
-  assetAddress: Bytes
-  creditLine: CreditLine
-  eventOriginationAddress: Bytes!
-  from: Bytes!
-  paymentIdHash: String!
-  paymentReference: Bytes
-  processed: Boolean!
-  flagged: Boolean!
-  invalidated: Boolean!
-  to: Bytes!
-}
+#   # Pool stats
+#   totalPoolAssets: BigInt!
+#   amountCreditOriginated: BigInt!
+#   amountCreditRepaid: BigInt!
+#   amountCreditDefaulted: BigInt!
+# }
 
-type CreditEvent @entity {
-  id: ID!
-  tx: Bytes
-  amount: BigInt
-  netAmountToBorrower: BigInt
-  timestamp: BigInt
-  owner: Bytes
-  pool: Bytes
-  creditLine: CreditLine
-  event: Int
-  receivableAddress: Bytes
-  receivableParam: BigInt
-}
+# type CreditLine @entity {
+#   id: ID!
+#   lastUpdate: Bytes
+#   correction: BigInt
+#   dueDate: BigInt
+#   creditLineType: Int
+#   billRefreshDate: BigInt
+#   feesAndInterestDue: BigInt
+#   missedPeriods: Int
+#   owner: Bytes
+#   poolEntity: Pool
+#   pool: Bytes
+#   remainingPeriods: Int
+#   state: Int
+#   totalDue: BigInt
+#   totalPastDue: BigInt
+#   unbilledPrincipal: BigInt
+#   settlementState: Int
+#   committedAmount: BigInt
+#   receivableAddress: Bytes
+#   receivableParam: BigInt
+#   receivables: [RWReceivable!]
+#   creditEvents: [CreditEvent!]! @derivedFrom(field: "creditLine")
+# }
 
-type Tranche @entity {
-  id: ID!
-  address: Bytes!
-  pool: Pool!
-  type: Int!
-}
+# type Payment @entity {
+#   id: ID!
+#   paymentTx: Bytes!
+#   processedTx: Bytes
+#   amount: BigInt!
+#   assetAddress: Bytes
+#   creditLine: CreditLine
+#   eventOriginationAddress: Bytes!
+#   from: Bytes!
+#   paymentIdHash: String!
+#   paymentReference: Bytes
+#   processed: Boolean!
+#   flagged: Boolean!
+#   invalidated: Boolean!
+#   to: Bytes!
+# }
 
-type Lender @entity {
-  id: ID!
-  lastUpdate: Bytes
-  owner: Bytes
-  pool: Bytes
-  withdrawableFunds: BigInt
-  poolEntity: Pool
-  tranche: Tranche
-  amount: BigInt
-  shares: BigInt
-  reinvestYield: Boolean
-  events: [LenderEvent!] @derivedFrom(field: "lender")
-}
+# type CreditEvent @entity {
+#   id: ID!
+#   tx: Bytes
+#   amount: BigInt
+#   netAmountToBorrower: BigInt
+#   timestamp: BigInt
+#   owner: Bytes
+#   pool: Bytes
+#   creditLine: CreditLine
+#   event: Int
+#   receivableAddress: Bytes
+#   receivableParam: BigInt
+# }
 
-type LenderEvent @entity {
-  id: ID!
-  tx: Bytes!
-  timestamp: BigInt!
-  lender: Lender!
-  event: Int!
-  amount: BigInt
-  shares: BigInt
-  extra: String
-}
+# type Tranche @entity {
+#   id: ID!
+#   address: Bytes!
+#   pool: Pool!
+#   type: Int!
+# }
 
-type RWReceivable @entity {
-  id: ID!
-  tokenId: BigInt
-  lastUpdateTx: Bytes
-  creator: Bytes
-  owner: Bytes
-  pool: Bytes
-  receivableAmount: BigInt
-  paidAmount: BigInt!
-  creationDate: BigInt
-  maturityDate: BigInt
-  currencyCode: Int
-  tokenUri: String
-  pastTokenUris: [String!]
-  status: Int
-  events: [RWReceivableEvent!] @derivedFrom(field: "rwReceivable")
-}
+# type Lender @entity {
+#   id: ID!
+#   lastUpdate: Bytes
+#   owner: Bytes
+#   pool: Bytes
+#   withdrawableFunds: BigInt
+#   poolEntity: Pool
+#   tranche: Tranche
+#   amount: BigInt
+#   shares: BigInt
+#   reinvestYield: Boolean
+#   events: [LenderEvent!] @derivedFrom(field: "lender")
+# }
 
-type RWReceivableEvent @entity {
-  id: ID!
-  tx: Bytes
-  amount: BigInt
-  timestamp: BigInt
-  owner: Bytes
-  pool: Bytes
-  event: Int
-  rwReceivable: RWReceivable
-}
+# type LenderEvent @entity {
+#   id: ID!
+#   tx: Bytes!
+#   timestamp: BigInt!
+#   lender: Lender!
+#   event: Int!
+#   amount: BigInt
+#   shares: BigInt
+#   extra: String
+# }
 
-# TODO: Remove once dapp has been updated
-type PoolStat @entity {
-  id: ID!
-  pool: Bytes!
-  totalPoolAssets: BigInt!
-  amountCreditOriginated: BigInt!
-  amountCreditRepaid: BigInt!
-  amountCreditDefaulted: BigInt!
-}
+# type RWReceivable @entity {
+#   id: ID!
+#   tokenId: BigInt
+#   lastUpdateTx: Bytes
+#   creator: Bytes
+#   owner: Bytes
+#   pool: Bytes
+#   receivableAmount: BigInt
+#   paidAmount: BigInt!
+#   creationDate: BigInt
+#   maturityDate: BigInt
+#   currencyCode: Int
+#   tokenUri: String
+#   pastTokenUris: [String!]
+#   status: Int
+#   events: [RWReceivableEvent!] @derivedFrom(field: "rwReceivable")
+# }
 
-type ProtocolStats @entity {
-  id: ID!
-  amountCreditOriginated: BigInt!
-  amountCreditRepaid: BigInt!
-  amountCreditDefaulted: BigInt!
-}
+# type RWReceivableEvent @entity {
+#   id: ID!
+#   tx: Bytes
+#   amount: BigInt
+#   timestamp: BigInt
+#   owner: Bytes
+#   pool: Bytes
+#   event: Int
+#   rwReceivable: RWReceivable
+# }
+
+# # TODO: Remove once dapp has been updated
+# type PoolStat @entity {
+#   id: ID!
+#   pool: Bytes!
+#   totalPoolAssets: BigInt!
+#   amountCreditOriginated: BigInt!
+#   amountCreditRepaid: BigInt!
+#   amountCreditDefaulted: BigInt!
+# }
+
+# type ProtocolStats @entity {
+#   id: ID!
+#   amountCreditOriginated: BigInt!
+#   amountCreditRepaid: BigInt!
+#   amountCreditDefaulted: BigInt!
+# }
