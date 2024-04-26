@@ -25,6 +25,7 @@
     "@subql/common": "^3.5.0",
     "@subql/types-core": "^0.6.0",
     "@subql/types-stellar": "^3.2.1",
+    "buffer": "^6.0.3",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {

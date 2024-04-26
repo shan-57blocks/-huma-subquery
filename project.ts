@@ -22,6 +22,9 @@ const project: StellarProject = {
     file: "./schema.graphql",
   },
   network: {
+    // chainId: "Test SDF Network ; September 2015",
+    // endpoint: ["https://horizon-testnet.stellar.org"],
+    // sorobanEndpoint: "https://soroban-testnet.stellar.org",
     chainId: "Test SDF Future Network ; October 2022",
     endpoint: ["https://horizon-futurenet.stellar.org"],
     sorobanEndpoint: "https://rpc-futurenet.stellar.org",
@@ -29,7 +32,7 @@ const project: StellarProject = {
   dataSources: [
     {
       kind: StellarDatasourceKind.Runtime,
-      startBlock: 1156352,
+      startBlock: 1305106,
       mapping: {
         file: "./dist/index.js",
         handlers: [
@@ -39,7 +42,7 @@ const project: StellarProject = {
             filter: {
               topics: ["HUMA_CFG", "initialize"],
               contractId:
-                "CDIDQ5E3KEPXZA3EP2UICLC3VSPV4Q7ISEHGYRWOSCB7ON2C54KJUMQC",
+                "CBTQ3NXUFUZYGFEYXMJVNFXOMQG7OHWEZJPXCIUVAXHIVZDPIIZ4UDK3",
             },
           },
         ],
